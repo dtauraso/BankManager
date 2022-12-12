@@ -1,11 +1,8 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-//import javax.swing.JButton
 
 public class Bank {
 
-    public Map<String, Account> users;
+    public HashMap<String, Account> users;
 
     public static double totalMoneyInBankBuilding = 0;
 
@@ -29,8 +26,20 @@ public class Bank {
         Bank myBank = new Bank();
 
         myBank.users.put("username 1", new Account(1.2,"firstName", "lastName", "savings"));
-        myBank.users.put("username 2",new Account(1.6543, "firstNyhgfrdame", "lasttfdName", "checking"));
+        myBank.users.put("username 2", new Account(1.6543, "first Nyhgfrdame", "last tfdName", "checking"));
 
-        System.out.println(myBank.toString());
+        myBank.users.get("username 1").deposit(20.0, 0);
+        myBank.users.get("username 1").deposit(20.0, 0);
+        myBank.users.get("username 1").withdraw(10.0, 0);
+
+        myBank.users.get("username 1").deposit(30.0, 1);
+        myBank.users.get("username 1").deposit(30.0, 1);
+        myBank.users.get("username 1").withdraw(20.0, 1);
+        myBank.users.get("username 1").deposit(40.0, 2);
+        myBank.users.get("username 1").deposit(40.0, 2);
+        myBank.users.get("username 1").withdraw(30.0, 2);
+
+//        System.out.println(myBank.toString());
+        System.out.println(myBank.users.get("username 1").getTransactionReport());
     }
 }
