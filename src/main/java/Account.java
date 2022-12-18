@@ -13,6 +13,19 @@ public class Account {
 
     private final HashMap<Integer, Month> monthTransactions;
 
+    private final Report transactionReport;
+
+    Account() {
+        this.balance = 0.0;
+        this.firstName = "";
+        this.lastName = "";
+        this.accountKind = "";
+        this.currentMonth = -1;
+        this.transactions = new ArrayList<Transaction>();
+        this.monthTransactions = new HashMap<Integer, Month>();
+        this.transactionReport = new Report();
+
+    }
     Account(Double balance, String firstName, String lastName, String accountKind) {
         this.balance = balance;
         this.firstName = firstName;
@@ -21,8 +34,10 @@ public class Account {
         this.currentMonth = -1;
         this.transactions = new ArrayList<Transaction>();
         this.monthTransactions = new HashMap<Integer, Month>();
+        this.transactionReport = new Report();
 
     }
+
     @Override
     public String toString() {
         return  this.balance + " " +
@@ -61,36 +76,7 @@ public class Account {
 
 
     }
-    public String viewTransactions(Integer month) {
-
-        String transactionHistory = "";
-        Integer currentMonth = -1;
-        for(int i: this.monthTransactions.get(month).getTransactionIDs()) {
-            Transaction transaction = this.transactions.get(i);
-            if(!month.equals(currentMonth)) {
-                currentMonth = month;
-                transactionHistory = transactionHistory.concat("\n");
-                transactionHistory = transactionHistory.concat(month.toString());
-                transactionHistory = transactionHistory.concat("\n");
-            }
-            transactionHistory = transactionHistory.concat(transaction.toString());
-            transactionHistory = transactionHistory.concat("\n");
-        }
-        return transactionHistory;
-    }
-    public String getTransactionReport() {
-
-        String transactionHistory = "";
-        // list of transactions by month
-        for(Integer month: this.monthTransactions.keySet()) {
-            transactionHistory = transactionHistory.concat(viewTransactions(month));
-            Month currentMonth = this.monthTransactions.get(month);
-            transactionHistory = transactionHistory.concat(String.valueOf(currentMonth.getMonthBalance()));
-            transactionHistory = transactionHistory.concat("\n");
-            transactionHistory = transactionHistory.concat(String.valueOf(currentMonth.getBalance()));
-
-        }
-
-        return transactionHistory;
+    public String getReport() {
+        return this.transactionReport.makeReport(this.monthTransactions, this.transactions);
     }
 }

@@ -39,7 +39,8 @@ public class Bank {
         myBank.users.get("username 1").deposit(40.0, 2);
         myBank.users.get("username 1").withdraw(30.0, 2);
 
-//        System.out.println(myBank.toString());
-        System.out.println(myBank.users.get("username 1").getTransactionReport());
+        Account user = myBank.users.get("username 1");
+        System.out.println(user.getReport());
+
     }
 }
