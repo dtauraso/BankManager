@@ -51,30 +51,34 @@ public class Account {
             this.monthTransactions.put(month, new Month());
         }
     }
-    public void deposit(Double newAmount, Integer month) {
-        this.balance += newAmount;
+    private void updateAccount(Boolean isAdded, Double newAmount, Integer month) {
+
+        if(isAdded) {
+            this.balance += newAmount;
+        }
+        else {
+            this.balance -= newAmount;
+        }
+
         this.transactions.add(new Transaction(true, newAmount));
         initMonthTransactions(month);
-
         Month currentMonth = this.monthTransactions.get(month);
         currentMonth.getTransactionIDs().add(this.transactions.size() - 1);
-
         currentMonth.setBalance(this.balance);
-        currentMonth.setMonthBalance(currentMonth.getMonthBalance() + newAmount);
 
+        if(isAdded) {
+            currentMonth.setMonthBalance(currentMonth.getMonthBalance() + newAmount);
+        }
+        else {
+            currentMonth.setMonthBalance(currentMonth.getMonthBalance() - newAmount);
+        }
     }
-    public void withdraw(Double amount, Integer month) {
-        this.balance -= amount;
-        this.transactions.add(new Transaction(false, amount));
-        initMonthTransactions(month);
+    public void deposit(Double newAmount, Integer month) {
+        this.updateAccount(true, newAmount, month);
+    }
+    public void withdraw(Double newAmount, Integer month) {
 
-        Month currentMonth = this.monthTransactions.get(month);
-        currentMonth.getTransactionIDs().add(this.transactions.size() - 1);
-
-        currentMonth.setBalance(this.balance);
-        currentMonth.setMonthBalance(currentMonth.getMonthBalance() - amount);
-
-
+        this.updateAccount(false, newAmount, month);
     }
     public String getReport() {
         return this.transactionReport.makeReport(this.monthTransactions, this.transactions);
